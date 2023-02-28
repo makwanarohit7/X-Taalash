@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Header() {
+export default function Header({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>X-TAALASH</Text>
+      <Text style={styles.headerText}>X-TALAASH</Text>
     </View>
   );
 }

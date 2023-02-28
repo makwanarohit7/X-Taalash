@@ -6,7 +6,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 export default function Qr_Screen() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [text, setText] = useState("Not yet scanned");
+  const [text, setText] = useState(null);
 
   const askForCameraPermission = () => {
     (async () => {
@@ -45,6 +45,15 @@ export default function Qr_Screen() {
     setText(data);
     // console.log("Type: " + type + "\nData: " + data);
   };
+
+  const CheckFun = () => {
+    if (Number.isInteger(parseInt(text))) {
+      return <Text style={styles.maintext}>{text}</Text>;
+    } else {
+      return <Text style={styles.maintext}>Scan Vaild Qr </Text>;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.maintext}>Scan The QR Code</Text>
@@ -54,8 +63,8 @@ export default function Qr_Screen() {
           style={{ height: 530, width: 400 }}
         />
       </View>
-      <Text style={styles.maintext}>{text}</Text>
 
+      <CheckFun />
       <View style={styles.button}>
         {scanned && (
           <Button
