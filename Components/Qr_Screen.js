@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-
+import CheckFun from "./CheckFun";
 export default function Qr_Screen() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -46,13 +46,13 @@ export default function Qr_Screen() {
     // console.log("Type: " + type + "\nData: " + data);
   };
 
-  const CheckFun = () => {
-    if (Number.isInteger(parseInt(text))) {
-      return <Text style={styles.maintext}>{text}</Text>;
-    } else {
-      return <Text style={styles.maintext}>Scan Vaild Qr </Text>;
-    }
-  };
+  // const CheckFun = () => {
+  //   if (Number.isInteger(parseInt(text))) {
+  //     return <Text style={styles.maintext}>{text}</Text>;
+  //   } else {
+  //     return <Text style={styles.maintext}>Scan Vaild Qr </Text>;
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -63,8 +63,7 @@ export default function Qr_Screen() {
           style={{ height: 530, width: 400 }}
         />
       </View>
-
-      <CheckFun />
+      <CheckFun text={text} />
       <View style={styles.button}>
         {scanned && (
           <Button

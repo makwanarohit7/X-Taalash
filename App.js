@@ -8,6 +8,7 @@ import TimePicker from "./Components/TimePicker";
 import YouWonTheGame from "./Components/YouWonTheGame";
 import Gp from "./Components/Gp";
 import Qr_Screen from "./Components/Qr_Screen";
+import Logic from "./Components/Logic";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         {/* <YouWonTheGame /> */}
         {/* <About /> */}
         {/* <Gp /> */}
+        {/* <Logic /> */}
       </ScrollView>
     </View>
   );
