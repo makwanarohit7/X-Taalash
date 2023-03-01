@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
+
 import TimePicker from "./TimePicker";
 const YouWonTheGame = () => {
   return (
