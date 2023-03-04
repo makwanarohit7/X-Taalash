@@ -1,13 +1,27 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, ToastAndroid } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  ToastAndroid,
+  Image,
+  ScrollView,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-// import CheckFun from "./CheckFun";
-export default function Qr_Screen() {
+import TimePicker from "./TimePicker";
+import Rules from "./TimePicker";
+export default function Qr_Screen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  // const [text, setText] = useState(null);
   const [scannedValues, setScannedValues] = useState([]);
+  const [count, setCount] = useState("");
+  const [clueDetail, setClueDetail] = useState("");
+  const [finish, setFinish] = useState(false);
+  const [imageShow, setImageShow] = useState(false);
+  const [time, setTime] = useState("false");
+  const [date1, setDate1] = useState(new Date());
 
   const askForCameraPermission = () => {
     (async () => {
@@ -58,7 +72,99 @@ export default function Qr_Screen() {
     [14, 12, 11, 10, 8, 9, 1, 15, 13, 7, 5, 3, 2, 4, 6],
     [15, 1, 12, 11, 9, 7, 2, 13, 14, 5, 6, 4, 3, 8, 10],
   ];
-
+  ////////////////////////////
+  const clueCheck = (clueList, progressCount) => {
+    // console.log("CC=" + clueList[progressCount]);
+    if (clueList[progressCount] === 1) {
+      // console.log("Fire");
+      setClueDetail("Fire");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 2) {
+      // console.log("Pani");
+      setClueDetail("Pani");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 3) {
+      // console.log("Dir");
+      setClueDetail("DIR");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 4) {
+      // console.log("Library");
+      setClueDetail("Library");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 5) {
+      // console.log("ATM");
+      setClueDetail("ATM");
+      setTime("true");
+      setImageShow(false);
+    }
+    if (clueList[progressCount] === 6) {
+      // console.log("Canteen");
+      setClueDetail("Canteeni");
+      setTime("true");
+    }
+    if (clueList[progressCount] === 7) {
+      // console.log("Play");
+      setClueDetail("Play");
+      setTime("true");
+    }
+    if (clueList[progressCount] === 8) {
+      // console.log("Parking");
+      setClueDetail("Parking");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 9) {
+      // console.log("Photo");
+      setClueDetail("Photo");
+      setImageShow(true);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 10) {
+      // console.log("CS");
+      setClueDetail("CS");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 11) {
+      // console.log("Flag");
+      setClueDetail("Flag");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 12) {
+      // console.log("Notic Board");
+      setClueDetail("Notic Board");
+      setTime("true");
+      setImageShow(false);
+    }
+    if (clueList[progressCount] === 13) {
+      // console.log("HOD");
+      setClueDetail("HOD");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 14) {
+      // console.log("Mechanical");
+      setClueDetail("Mechanical");
+      setImageShow(false);
+      setTime("true");
+    }
+    if (clueList[progressCount] === 15) {
+      // console.log("Rendom");
+      setClueDetail("Rendom");
+      setImageShow(false);
+      setTime("true");
+    }
+  };
+  ////////////////////////////
   const validate = (scannedValues) => {
     if (scannedValues.length < 1) {
       return true;
@@ -66,10 +172,20 @@ export default function Qr_Screen() {
     console.log(scannedValues);
     const clueList = permutations.find((item) => item[0] === scannedValues[0]);
     const progressCount = scannedValues.length;
+    setCount(progressCount);
+
     console.log(clueList);
-    console.log(progressCount);
+
+    console.log("completed Round = " + progressCount);
+
+    if (progressCount >= 15) {
+      setFinish(true);
+      console.log("Finish The Game.=> Navigation");
+    }
+
     if (scannedValues[progressCount - 1] === clueList[progressCount - 1]) {
       // success
+      clueCheck(clueList, progressCount);
       return true;
     } else {
       // failed
@@ -78,11 +194,13 @@ export default function Qr_Screen() {
   };
   /////////////////////////////////////
   // What happens when we scan the bar code
+  let time1 = false;
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const newScannedValues = [...scannedValues, +data];
     if (validate(newScannedValues)) {
       setScannedValues(newScannedValues);
+      //Toast The Value
       ToastAndroid.showWithGravityAndOffset(
         "You Scanned Right QR Code",
         ToastAndroid.LONG,
@@ -90,6 +208,11 @@ export default function Qr_Screen() {
         25,
         50
       );
+      // if (count >= 15) {
+      //   () => {
+      //     navigation.navigate("Finish");
+      //   };
+      // }
       // console.log("Right");
     } else {
       ToastAndroid.showWithGravityAndOffset(
@@ -103,26 +226,60 @@ export default function Qr_Screen() {
     }
   };
 
+  // console.log("Time = " + time);
+  if (time === "true") {
+    time1 = true;
+    setTime("false");
+  }
+  {
+    time1 && setDate1(new Date());
+  }
+
+  // console.log("Date = " + date1);
   return (
-    <View style={styles.container}>
-      <Text style={styles.maintext}>Scan The QR Code</Text>
+    <ScrollView indicatorStyle="white" style={styles.container}>
+      {/* <View style={styles.container}> */}
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
           style={{ height: 530, width: 400 }}
         />
       </View>
-
+      <View style={styles.image_container}>
+        {imageShow && (
+          <Image
+            source={require("../assets/icon.png")}
+            style={styles.images}
+            resizeMode="contain"
+          />
+        )}
+      </View>
       <View style={styles.button}>
         {scanned && (
           <Button
             title={"Scan again ?"}
-            onPress={() => setScanned(false)}
+            onPress={() => {
+              setScanned(false);
+              setTime("false");
+            }}
             color="#de8b07"
           />
         )}
       </View>
-    </View>
+      {/* {time && <TimePicker />} */}
+      <Text style={styles.Hint}>{date1.toLocaleString()}</Text>
+      <Text style={styles.Hint}>Hint Number: {count}</Text>
+      <Text style={styles.HintNext}>Next Hint : {clueDetail}</Text>
+      {finish && (
+        <Button
+          title="Go to Details"
+          onPress={() => navigation.navigate("Finish")}
+        />
+      )}
+      {/* {finish && navigation.navigate("Finish")} */}
+      {/* </View> */}
+      {/* <Rules /> */}
+    </ScrollView>
   );
 }
 
@@ -130,6 +287,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#495E57",
+  },
+  Hint: {
+    fontSize: 25,
+    marginTop: 5,
+    textAlign: "center",
+  },
+  HintNext: {
+    fontSize: 25,
+    marginTop: 5,
+    textAlign: "center",
   },
   maintext: {
     fontSize: 25,
@@ -148,5 +315,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+  },
+  images: {
+    width: 200,
+    height: 200,
+    marginTop: 40,
+    marginLeft: 100,
   },
 });

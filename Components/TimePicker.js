@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DateTimePickerExample = () => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-
+  const [stime, setStime] = useState("");
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowPicker(false);
@@ -16,9 +16,11 @@ const DateTimePickerExample = () => {
     setShowPicker(true);
   };
 
+  console.log("STime" + stime);
+
   return (
     <View>
-      <TouchableOpacity onPress={showDateTimePicker}>
+      <TouchableOpacity>
         <Text style={styles.text}>{date.toLocaleString()}</Text>
       </TouchableOpacity>
       {showPicker && (
@@ -33,7 +35,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 25,
     fontWeight: "bold",
-    marginTop: 40,
+    marginTop: 5,
+    marginLeft: 60,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 // This is For Click on Button Then Alert The App

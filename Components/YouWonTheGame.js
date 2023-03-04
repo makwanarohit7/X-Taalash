@@ -1,10 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 
 import TimePicker from "./TimePicker";
-const YouWonTheGame = () => {
+const YouWonTheGame = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView indicatorStyle="white" style={styles.container}>
+      {/* <View style={styles.container}> */}
       <Text style={styles.text}>You Finish The Game</Text>
       <View style={styles.image_container}>
         <Image
@@ -15,15 +23,16 @@ const YouWonTheGame = () => {
       </View>
 
       <TimePicker />
-    </View>
+      {/* </View> */}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+
+    backgroundColor: "#495E57",
   },
   text: {
     fontSize: 35,
